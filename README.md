@@ -1,5 +1,18 @@
 # React + TypeScript + Vite
 
+📦 Cài đặt
+1. Clone repository
+   git clone <repository-url>
+   cd FE_BDS
+2. Cài đặt dependencies
+   npm install
+3. Cấu hình môi trường
+   # Copy file môi trường
+   cp .env.example .env
+
+🏃‍♂️ Chạy ứng dụng: 
+  npm run dev
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

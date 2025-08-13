@@ -24,7 +24,7 @@ const PropertyCard: React.FC<{ property: Property }> = ({ property }) => {
                         </div>
                     </div>
                     <Link to={`/detail/${property.id}`} className="text-sm text-indigo-600">
-                        Xem
+                        見る
                     </Link>
                 </div>
             </div>

@@ -2,9 +2,25 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Feature from '../../components/FeatureCard';
 import PropertyCard from '../../components/PropertyCard';
-import { sampleProperties } from '../../types/property';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+const fetchProperties = async () => {
+    const res = await axios.get(`${API_URL}/properties`);
+    return res.data?.data?.data || [];
+};
 
 const HomePage: React.FC = () => {
+    const {
+        data: properties = [],
+        isLoading,
+        isError,
+    } = useQuery({
+        queryKey: ['properties'],
+        queryFn: fetchProperties,
+    });
     return (
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -42,9 +58,9 @@ const HomePage: React.FC = () => {
             <section className="mt-12">
                 <h2 className="text-2xl font-semibold">注目の物件(Bất động sản nổi bật)</h2>
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sampleProperties.map((p) => (
-                        <PropertyCard key={p.id} property={p} />
-                    ))}
+                    {isLoading && <div>読み込み中...</div>}
+                    {isError && <div>物件の読み込み中にエラーが発生しました。</div>}
+                    {!isLoading && !isError && properties.map((p: any) => <PropertyCard key={p.id} property={p} />)}
                 </div>
             </section>
         </main>

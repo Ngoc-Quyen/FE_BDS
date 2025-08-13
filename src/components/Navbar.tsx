@@ -1,10 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-// Import MobileMenu từ file vừa tạo
-import MobileMenu from './MobileMenu';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getAuthData, logoutApi } from '../api/auth';
 
 const Navbar: React.FC = () => {
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
+
+    const { data: auth } = useQuery({
+        queryKey: ['auth'],
+        queryFn: getAuthData,
+    });
+
+    const logoutMutation = useMutation({
+        mutationFn: logoutApi,
+        onSettled: () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('name');
+            localStorage.removeItem('email');
+            queryClient.invalidateQueries({ queryKey: ['auth'] });
+            navigate('/login');
+        },
+    });
+
     return (
         <nav className="bg-white shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,27 +38,34 @@ const Navbar: React.FC = () => {
                             </div>
                         </Link>
                     </div>
-
-                    <div className="flex items-center">
-                        <div className="hidden md:flex items-center space-x-4">
-                            <Link
-                                to="/list"
-                                className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
-                            >
-                                一覧
-                            </Link>
-                            <Link
-                                to="/login"
-                                className="px-3 py-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                            >
-                                ログイン
-                            </Link>
-                        </div>
-
-                        {/* Mobile menu button */}
-                        <div className="md:hidden">
-                            <MobileMenu />
-                        </div>
+                    <div className="flex gap-4 items-center">
+                        {auth?.token && auth?.name ? (
+                            <>
+                                <span className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 bg-gray-100">
+                                    {auth.name}
+                                </span>
+                                <button
+                                    onClick={() => logoutMutation.mutate()}
+                                    className="px-3 py-2 bg-red-500 text-white rounded"
+                                >
+                                    ログアウト
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <div className="flex gap-4">
+                                    <Link
+                                        to="/list"
+                                        className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
+                                    >
+                                        一覧
+                                    </Link>
+                                </div>
+                                <Link to="/login" className="px-4 py-2 bg-indigo-600 text-white rounded">
+                                    ログイン
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

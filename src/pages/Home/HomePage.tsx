@@ -6,7 +6,6 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
-
 const fetchProperties = async () => {
     const res = await axios.get(`${API_URL}/properties`);
     return res.data?.data?.data || [];
@@ -25,8 +24,13 @@ const HomePage: React.FC = () => {
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                 <div>
-                    <h1 className="text-4xl font-extrabold leading-tight">あなたの夢の家を見つけよう</h1>
-                    <p className="mt-4 text-gray-600">
+                    <h1 className="text-4xl font-extrabold leading-tight" title="Hãy tìm ngôi nhà mơ ước của bạn">
+                        あなたの夢の家を見つけよう
+                    </h1>
+                    <p
+                        className="mt-4 text-gray-600"
+                        title="Tìm kiếm, lọc, so sánh và quản lý bất động sản dễ dàng. Từ nhà ở đến văn phòng, tất cả đều có sẵn."
+                    >
                         不動産の検索、絞り込み、比較、管理を簡単に。住宅からオフィスまで、すべて揃っています。
                     </p>
 
@@ -34,6 +38,7 @@ const HomePage: React.FC = () => {
                         <Link
                             to="/list"
                             className="inline-flex items-center px-5 py-3 bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700"
+                            title="Xem danh sách bất động sản"
                         >
                             一覧を見る
                         </Link>
@@ -56,7 +61,9 @@ const HomePage: React.FC = () => {
             </section>
 
             <section className="mt-12">
-                <h2 className="text-2xl font-semibold">注目の物件(Bất động sản nổi bật)</h2>
+                <h2 className="text-2xl font-semibold" title="Bất động sản nổi bật">
+                    注目の物件
+                </h2>
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {isLoading && <div>読み込み中...</div>}
                     {isError && <div>物件の読み込み中にエラーが発生しました。</div>}

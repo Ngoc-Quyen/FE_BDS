@@ -3,6 +3,7 @@ import type { Property } from '../types/property';
 import React from 'react';
 
 const PropertyCard: React.FC<{ property: Property }> = ({ property }) => {
+    // check login
     return (
         <article className="bg-white rounded-lg shadow hover:shadow-md overflow-hidden">
             <div className="h-40 bg-gray-200 flex items-center justify-center">

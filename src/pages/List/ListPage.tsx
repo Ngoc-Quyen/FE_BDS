@@ -4,15 +4,13 @@ import { Link } from 'react-router-dom';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { STATUS_OPTIONS, TYPE_OPTIONS } from '../../utils/options';
+import { getAuthData } from '../../api/auth';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const fetchProperties = async (params: any) => {
     const res = await axios.get(`${API_URL}/properties`, { params });
     return res.data?.data || { data: [], total: 0 };
 };
-
-// check login
-const isLoggedIn = Boolean(localStorage.getItem('token'));
 
 const ListPage: React.FC = () => {
     const [city, setCity] = useState('');
@@ -22,6 +20,12 @@ const ListPage: React.FC = () => {
     const [maxPrice, setMaxPrice] = useState('');
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
+
+    // check login
+    const { data: auth } = useQuery({
+        queryKey: ['auth'],
+        queryFn: getAuthData,
+    });
 
     const queryKey = ['properties', { city, status, propertyType, minPrice, maxPrice, perPage, page }];
 
@@ -55,13 +59,10 @@ const ListPage: React.FC = () => {
                 <h2 className="text-2xl font-semibold" title="Danh sách bất động sản">
                     不動産一覧
                 </h2>
-                {isLoggedIn && (
+                {auth?.token && (
                     <div className="flex gap-2">
                         <Link to="/create" className="px-4 py-2 bg-green-600 text-white rounded" title="Tạo mới">
                             新規作成
-                        </Link>
-                        <Link to="/edit" className="px-4 py-2 bg-blue-600 text-white rounded" title="Cập nhật">
-                            編集
                         </Link>
                     </div>
                 )}

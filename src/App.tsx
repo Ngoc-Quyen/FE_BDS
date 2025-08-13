@@ -4,6 +4,8 @@ import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Login/LoginPage';
 import ListPage from './pages/List/ListPage';
 import DetailPage from './pages/Detail/DetailPage';
+import CreatePropertyPage from './pages/CreateEdit/CreatePropertyPage';
+import EditPropertyPage from './pages/CreateEdit/EditPropertyPage';
 
 function App() {
     return (
@@ -16,6 +18,8 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/list" element={<ListPage />} />
                     <Route path="/detail/:id" element={<DetailPage />} />
+                    <Route path="/edit/:id" element={<EditPropertyPage />} />
+                    <Route path="/create" element={<CreatePropertyPage />} />
                     {/* Create/Edit pages to be implemented in next steps */}
                 </Routes>
 

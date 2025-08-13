@@ -1,7 +1,8 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { getAuthData } from '../../api/auth';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -12,6 +13,10 @@ const fetchPropertyDetail = async (id: string | undefined) => {
 };
 
 const DetailPage: React.FC = () => {
+    const { data: auth } = useQuery({
+        queryKey: ['auth'],
+        queryFn: getAuthData,
+    });
     const { id } = useParams<{ id: string }>();
     const {
         data: property,
@@ -46,6 +51,18 @@ const DetailPage: React.FC = () => {
                             </div>
                         ))}
                     </div>
+                </div>
+            )}
+
+            {auth?.token && (
+                <div className="flex gap-2 mt-6">
+                    <Link
+                        to={`/edit/${property.id}`}
+                        className="inline-flex items-center gap-2 px-5 py-2 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 hover:shadow-md transition-all duration-200 ease-in-out"
+                        title="Cập nhật"
+                    >
+                        編集
+                    </Link>
                 </div>
             )}
         </div>

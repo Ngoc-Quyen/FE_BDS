@@ -6,7 +6,7 @@ export const fetchProperty = async () => {
     const res = await axios.get(`${API_URL}/properties`);
     return res.data?.data || null;
 };
-export const fetchPropertyDetail = async (id: string) => {
+export const fetchPropertyDetail = async (id: string | number) => {
     const res = await axios.get(`${API_URL}/properties/${id}`);
     return res.data?.data || null;
 };

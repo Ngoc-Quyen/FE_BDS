@@ -20,7 +20,6 @@ interface PropertyFormValues {
     latitude?: number;
     longitude?: number;
     year_built?: number;
-    features?: string;
     images: File[];
     contact_name: string;
     contact_phone: string;
@@ -44,7 +43,6 @@ const initialValues: PropertyFormValues = {
     latitude: undefined,
     longitude: undefined,
     year_built: undefined,
-    features: '[]',
     images: [],
     contact_name: '',
     contact_phone: '',
@@ -119,7 +117,7 @@ const CreatePropertyPage: React.FC = () => {
             const formData = new FormData();
             Object.entries(values).forEach(([key, value]) => {
                 if (key === 'images') {
-                    value.forEach((file: File) => formData.append('images', file));
+                    value.forEach((file: File) => formData.append('images[]', file));
                 } else if (value !== undefined && value !== null) {
                     formData.append(key, String(value));
                 }

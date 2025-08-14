@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { getAuthData } from '../../api/auth';
+import DeleteButton from '../../components/DeleteButton';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -63,6 +64,13 @@ const DetailPage: React.FC = () => {
                     >
                         編集
                     </Link>
+                    <DeleteButton
+                        propertyId={property.id}
+                        onDeleted={() => {
+                            // Tuỳ chọn: update UI sau khi xóa, ví dụ refetch danh sách
+                            alert('削除しました');
+                        }}
+                    />
                 </div>
             )}
         </div>

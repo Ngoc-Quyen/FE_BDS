@@ -31,3 +31,13 @@ export const createPageApi = async ({ data }: { data: FormData }) => {
 
     return res.data;
 };
+
+export const deletePropertyApi = async (id: number | string) => {
+    const res = await axios.delete(`${API_URL}/properties/${id}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    return res;
+};
